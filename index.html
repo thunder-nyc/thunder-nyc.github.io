@@ -27,37 +27,229 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h2>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Thunder is a <a href="http://en.wikipedia.org/wiki/C%2B%2B11">C++11</a> library to provide device-transparent Tensor mathematical operations. We are currently working on a first proof-of-idea version of the library, focusing on applications in <a href="http://en.wikipedia.org/wiki/Deep_learning">Deep Learning</a> using high-level parallelization and numerical optimization with GPUs and computer clusters.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>Thunder is largely inspired by <a href="http://torch.ch">Torch 7</a>, Facebook's <a href="http://github.com/facebook/thpp">TH++</a>, and <a href="http://eblearn.sourceforge.net">EBLearn</a>'s <a href="http://eblearn.sourceforge.net/libidx.html">libidx</a>. In fact, the name "Thunder" came from "TH--" if "under" could be interpreted as "--".</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>The library just had its development began. Contribution is very welcomed! Please contact Xiang Zhang (xiang.zhang [at] nyu.edu) for details.</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>For now Thunder contains only a set of headers. The only installation instruction is to copy the directory "thunder" into your include directories, for example</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<div class="highlight highlight-sh"><pre>cp -r thunder /usr/local/include/
+</pre></div>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>Please note that the Thunder library is still quite new and immature. Many of its features are still under implementation. Therefore we do not yet provide a configuration or installation script. We will change this later when the library is ready to be released.</p>
 
 <h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a name="compilers-for-c11" class="anchor" href="#compilers-for-c11"><span class="octicon octicon-link"></span></a>Compilers for C++11</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>Thunder requires a C++11 compiler. We target our tests to <a href="https://gcc.gnu.org">gcc</a> &gt;= 4.8 and <a href="http://clang.llvm.org">llvm/clang</a> &gt;= 3.4.</p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<p>Thunder has many exciting features. The following is a preview list. Some of them are already in the current public source code.</p>
 
 <h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a name="device-transparency" class="anchor" href="#device-transparency"><span class="octicon octicon-link"></span></a>Device Transparency</h3>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Device transparency means that we can transfer data between tensors living on different hardware seamlessly. For example</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+
+<span class="c1">// Create a tensor of size 3x9x7x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">cpu_tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Create a tensor living on NVIDIA GPU and copy from CPU tensor.</span>
+<span class="c1">// Only explicit static cast is needed.</span>
+<span class="n">FloatCudaTensor</span> <span class="n">gpu_tensor</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span> <span class="n">FloatCudaTensor</span> <span class="o">&gt;</span><span class="p">(</span><span class="n">cpu_tensor</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="reference-semantics" class="anchor" href="#reference-semantics"><span class="octicon octicon-link"></span></a>Reference Semantics</h3>
+
+<p>Tensors in Thunder do not manage memory; rather, they contain <a href="http://en.cppreference.com/w/cpp/memory/shared_ptr">thread-safe C++11 shared pointers</a> to underlying <code>Storage</code> objects. Unless explicitly created by constructors, static tensor creators or a call to <code>Tensor::clone()</code> for deep copying, Thunder tensors are light-weight objects that can be copied, moved or returned without heavy side effects.</p>
+
+<p>That being said, we still have static memory deallocation when a <code>Storage</code> is not linked by anybody. This provides us with both fast Tensor operations and tight memory control without requiring any explicit memory calls by the user.</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+
+<span class="c1">// Using tensor constructors create new underlying Storage object.</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Static tensor creators also create new underlying Storage objects.</span>
+<span class="n">DoubleTensor</span> <span class="n">created_tensor</span> <span class="o">=</span> <span class="n">DoubleTensor</span><span class="o">::</span><span class="n">ones</span><span class="p">(</span><span class="n">tensor</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="c1">// Copy constructor still points to the same Storage object.</span>
+<span class="n">DoubleTensor</span> <span class="n">copied_tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">;</span>
+
+<span class="c1">// Subtensor operators still points to the same Storage object,</span>
+<span class="c1">// but now we have a different subtensor view of size 2x8x7x10</span>
+<span class="n">DoubleTensor</span> <span class="n">sub_tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">[{{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},{</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">}}]</span>
+
+<span class="c1">// However, the call to 'clone()' creates new underlying Storage.</span>
+<span class="c1">// It is essentially a 'deep copy'.</span>
+<span class="n">DoubleTensor</span> <span class="n">cloned_tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+</pre></div>
+
+<h3>
+<a name="range-based-for-loop" class="anchor" href="#range-based-for-loop"><span class="octicon octicon-link"></span></a>Range-based <code>for</code> Loop</h3>
+
+<p>We support the new <a href="http://en.cppreference.com/w/cpp/language/range-for">C++11 range-based <code>for</code> loop</a> on tensors. In Thunder, a range-based <code>for</code> loop iterates through the first dimension of the tensor.</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+
+<span class="c1">// Create a tensor of size 3x9x7x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Create a vector of size 10</span>
+<span class="n">DoubleTensor</span> <span class="nf">vector</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Create a vector of size 7 storing result data</span>
+<span class="n">DoubleTensor</span> <span class="n">result</span> <span class="o">=</span> <span class="n">DoubleTensor</span><span class="o">::</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span>
+
+<span class="c1">// Create a default blas device</span>
+<span class="n">DoubleBlas</span> <span class="n">blas_device</span><span class="p">;</span>
+
+<span class="c1">// Create a default random device</span>
+<span class="n">DoubleRandom</span> <span class="n">rand_device</span><span class="p">;</span>
+
+<span class="c1">// Each t is of size 9x7x10</span>
+<span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">DoubleTensor</span> <span class="o">&amp;</span><span class="nl">t</span> <span class="p">:</span> <span class="n">tensor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Each s is of size 7x10</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">DoubleTensor</span> <span class="o">&amp;</span><span class="nl">s</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Do matrix-vector multiplication with vector sampled</span>
+        <span class="c1">// from normal distribution with mean = 0 and std = 1</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">blas_device</span><span class="p">.</span><span class="n">gemv</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">rand_device</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>
+<a name="lambda-expression" class="anchor" href="#lambda-expression"><span class="octicon octicon-link"></span></a>Lambda Expression</h3>
+
+<p>In Thunder, each tensor can accept a <a href="http://en.cppreference.com/w/cpp/language/lambda">lambda expression</a> to read or change its values. The following is an example</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+
+<span class="c1">// Create a tensor of size 3x9x7x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Create a value to store the sum</span>
+<span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// Apply a lambda that sums up the values and assign current sum to current value</span>
+<span class="n">tensor</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span>
+   <span class="p">[</span><span class="o">&amp;</span><span class="n">sum</span><span class="p">](</span><span class="kt">double</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">v</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+    <span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="complex-numbers" class="anchor" href="#complex-numbers"><span class="octicon octicon-link"></span></a>Complex Numbers</h3>
+
+<p>Thunder library support complex numbers natively.</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+
+<span class="c1">// Create 2 tensors of size 3x9x7x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor1</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Construct a complex tensor using polar</span>
+<span class="n">DoubleComplexTensor</span> <span class="n">complex_tensor</span> <span class="o">=</span> <span class="n">DoubleComplexTensor</span><span class="o">::</span><span class="n">polar</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">);</span>
+
+<span class="c1">// Get the complex norm of the tensor</span>
+<span class="n">DoubleTensor</span> <span class="n">norm_tensor</span> <span class="o">=</span> <span class="n">complex_tensor</span><span class="p">.</span><span class="n">getCnrm</span><span class="p">();</span>
+</pre></div>
+
+<h3>
+<a name="serialization" class="anchor" href="#serialization"><span class="octicon octicon-link"></span></a>Serialization</h3>
+
+<p>We use the <a href="http://www.boost.org/doc/libs/release/libs/serialization">boost serialization</a> library to serialize all data structures in Thunder.</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">boost</span><span class="p">;</span>
+
+<span class="c1">// Create a tensor of size 3x9x7x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Create a string stream</span>
+<span class="n">std</span><span class="o">::</span><span class="n">stringstream</span> <span class="n">stream</span><span class="p">;</span>
+
+<span class="c1">// Create an output archive link to the string stream</span>
+<span class="n">serialization</span><span class="o">::</span><span class="n">text_archive</span> <span class="n">archive</span><span class="p">(</span><span class="n">stream</span><span class="p">);</span>
+
+<span class="c1">// Serialize the tensor to the archive</span>
+<span class="n">archive</span> <span class="o">&lt;&lt;</span> <span class="n">tensor</span><span class="p">;</span>
+
+<span class="c1">// Now you can see the content of the serialized data</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">"Serialized data: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">stream</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+</pre></div>
+
+<h3>
+<a name="random-generators" class="anchor" href="#random-generators"><span class="octicon octicon-link"></span></a>Random Generators</h3>
+
+<p>We support all <a href="http://en.cppreference.com/w/cpp/numeric/random">random generators provided by the C++11 standard library</a>. They include</p>
+
+<ul>
+<li>Uniform distribution</li>
+<li>Bernoulli distribution</li>
+<li>Binomial distribution</li>
+<li>Negative binomial distribution</li>
+<li>Geometric distribution</li>
+<li>Poisson distribution</li>
+<li>Exponential distribution</li>
+<li>Gamma distribution</li>
+<li>Weibull distribution</li>
+<li>Extreme value distribution</li>
+<li>Normal distribution</li>
+<li>Log normal distribution</li>
+<li>Chi squared distribution</li>
+<li>Cauchy distribution</li>
+<li>Fisher F distribution</li>
+<li>Student T distribution</li>
+</ul><p>For example</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+
+<span class="c1">// Create a random number generator</span>
+<span class="n">DoubleRandom</span> <span class="n">generator</span><span class="p">;</span>
+
+<span class="c1">// Create a tensor of size 3x9x7x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Generate from gamma distribution with alpha = 1.0, beta = 1.0.</span>
+<span class="n">generator</span><span class="p">.</span><span class="n">gamma</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tensor</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="batch-blas" class="anchor" href="#batch-blas"><span class="octicon octicon-link"></span></a>Batch BLAS</h3>
+
+<p>Our BLAS routines support batch mode. The batch mode offers possiblity of speeding up BLAS routines in CPU or GPU without changing the underlying single-core implementation. This design should be more practical and easier to speed up.</p>
+
+<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+
+<span class="c1">// Create a BLAS computing device</span>
+<span class="n">DoubleBlas</span> <span class="n">blas_device</span><span class="p">;</span>
+
+<span class="c1">// Create a tensor of size 3x9x7x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor1</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Create another tensor of size 3x9x10</span>
+<span class="n">DoubleTensor</span> <span class="nf">tensor2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// Computing matrix-vector multiplication in batch mode</span>
+<span class="c1">// Now, 'result' is a tensor of size 3x9x7.</span>
+<span class="n">DoubleTensor</span> <span class="n">result</span> <span class="o">=</span> <span class="n">blas_device</span><span class="p">.</span><span class="n">gemv</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">);</span>
+</pre></div>
       </section>
     </div>
 
