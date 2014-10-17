@@ -37,19 +37,30 @@
 <p>The library just had its development began. Contribution is very welcomed! Please contact Xiang Zhang (xiang.zhang [at] nyu.edu) for details.</p>
 
 <h2>
+<a name="downloads" class="anchor" href="#downloads"><span class="octicon octicon-link"></span></a>Downloads</h2>
+
+<p><a href="https://github.com/thunder-nyc/Thunder/releases">Current release</a> of Thunder is version 0.0.0. You can download it from our <a href="https://github.com/thunder-nyc/Thunder/releases">release page</a> or check it out in our <a href="https://github.com/thunder-nyc/Thunder/tree/v0.0.0">Github repository</a>.</p>
+
+<h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>For now Thunder contains only a set of headers. The only installation instruction is to copy the directory "thunder" into your include directories, for example</p>
+<p>Thunder can be installed via a simple make command.</p>
 
-<div class="highlight highlight-sh"><pre>cp -r thunder /usr/local/include/
+<div class="highlight highlight-sh"><pre>make install <span class="nv">prefix</span><span class="o">=</span>/usr/local
 </pre></div>
 
-<p>Please note that the Thunder library is still quite new and immature. Many of its features are still under implementation. Therefore we do not yet provide a configuration or installation script. We will change this later when the library is ready to be released.</p>
+<p>Please note that the Thunder library is still quite new and immature. Many of its features are still under implementation. Current repository contains a development version of Thunder prior to a first release.</p>
 
 <h3>
-<a name="compilers-for-c11" class="anchor" href="#compilers-for-c11"><span class="octicon octicon-link"></span></a>Compilers for C++11</h3>
+<a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h3>
 
-<p>Thunder requires a C++11 compiler. We target our tests to <a href="https://gcc.gnu.org">gcc</a> &gt;= 4.8 and <a href="http://clang.llvm.org">llvm/clang</a> &gt;= 3.4.</p>
+<p>Here is a list of prerequisites you need to have to make sure Thunder compiles</p>
+
+<ul>
+<li>A C++11 compiler that supports -std=c++11. We target our tests to <a href="https://gcc.gnu.org">gcc</a> &gt;= 4.8 and <a href="http://clang.llvm.org">llvm/clang</a> &gt;= 3.4.</li>
+<li>
+<a href="http://www.boost.org">Boost</a> &gt;= 1.56, with its <a href="http://www.boost.org/doc/libs/1_56_0/libs/serialization">Serialization</a> package.</li>
+</ul>
 
 <h2>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
@@ -216,7 +227,9 @@
 <li>Cauchy distribution</li>
 <li>Fisher F distribution</li>
 <li>Student T distribution</li>
-</ul><p>For example</p>
+</ul>
+
+<p>For example</p>
 
 <div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
 
