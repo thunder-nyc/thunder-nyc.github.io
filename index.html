@@ -28,7 +28,7 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h2>
-<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>Thunder is a <a href="http://en.wikipedia.org/wiki/C%2B%2B11">C++11</a> library to provide device-transparent Tensor mathematical operations. We are currently working on a first proof-of-idea version of the library, focusing on applications in <a href="http://en.wikipedia.org/wiki/Deep_learning">Deep Learning</a> using high-level parallelization and numerical optimization with GPUs and computer clusters.</p>
 
@@ -37,12 +37,12 @@
 <p>The library just had its development began. Contribution is very welcomed! Please contact Xiang Zhang (xiang.zhang [at] nyu.edu) for details.</p>
 
 <h2>
-<a name="downloads" class="anchor" href="#downloads"><span class="octicon octicon-link"></span></a>Downloads</h2>
+<a id="downloads" class="anchor" href="#downloads" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloads</h2>
 
-<p><a href="https://github.com/thunder-nyc/Thunder/releases">Current release</a> of Thunder is version 0.1.0. You can download it from our <a href="https://github.com/thunder-nyc/Thunder/releases">release page</a> or check it out in our <a href="https://github.com/thunder-nyc/Thunder/tree/v0.1.0">Github repository</a>.</p>
+<p><a href="https://github.com/thunder-nyc/Thunder/releases">Current release</a> of Thunder is version 0.2.0. You can download it from our <a href="https://github.com/thunder-nyc/Thunder/releases">release page</a> or check it out in our <a href="https://github.com/thunder-nyc/Thunder/tree/v0.2.0">Github repository</a>.</p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Here is a list of prerequisites you need to have to make sure Thunder compiles</p>
 
@@ -51,7 +51,7 @@
 </ul>
 
 <h3>
-<a name="compile-thunder" class="anchor" href="#compile-thunder"><span class="octicon octicon-link"></span></a>Compile Thunder</h3>
+<a id="compile-thunder" class="anchor" href="#compile-thunder" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compile Thunder</h3>
 
 <p>Thunder can be installed via cmake. To configure the project, please execute</p>
 
@@ -73,7 +73,7 @@
 <p>Under Apple OS X you might get a warning regarding <a href="http://www.cmake.org/cmake/help/v3.0/policy/CMP0042.html">CMP0042</a>. Since it is safe to ignore the warning, you can add an option <code>-Wno-dev</code> to supress it.</p>
 
 <h3>
-<a name="compile-tests" class="anchor" href="#compile-tests"><span class="octicon octicon-link"></span></a>Compile Tests</h3>
+<a id="compile-tests" class="anchor" href="#compile-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compile Tests</h3>
 
 <p>To compile tests, you can add an option <code>-DBUILD_THUNDER_TESTS=ON</code> to the cmake command. Then, you can run the tests by</p>
 
@@ -83,12 +83,12 @@
 <p>In most systems the tests should be finished with no problems. However, it is possible that you may encounter occasional numerical precision errors depending on your compiler and standard C++ library. Checking the CTest logs manually is needed to make sure everything is okay.</p>
 
 <h2>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <p>Thunder has many exciting features. The following is a preview list. Some of them are already in the current public source code.</p>
 
 <h3>
-<a name="device-transparency" class="anchor" href="#device-transparency"><span class="octicon octicon-link"></span></a>Device Transparency</h3>
+<a id="device-transparency" class="anchor" href="#device-transparency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Device Transparency</h3>
 
 <p>Device transparency means that we can transfer data between tensors living on different hardware seamlessly. For example</p>
 
@@ -103,7 +103,7 @@
 </pre></div>
 
 <h3>
-<a name="reference-semantics" class="anchor" href="#reference-semantics"><span class="octicon octicon-link"></span></a>Reference Semantics</h3>
+<a id="reference-semantics" class="anchor" href="#reference-semantics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference Semantics</h3>
 
 <p>Tensors in Thunder do not manage memory; rather, they contain <a href="http://en.cppreference.com/w/cpp/memory/shared_ptr">thread-safe C++11 shared pointers</a> to underlying <code>Storage</code> objects. Unless explicitly created by constructors, static tensor creators or a call to <code>Tensor::clone()</code> for deep copying, Thunder tensors are light-weight objects that can be copied, moved or returned without heavy side effects.</p>
 
@@ -130,7 +130,7 @@
 </pre></div>
 
 <h3>
-<a name="range-based-for-loop" class="anchor" href="#range-based-for-loop"><span class="octicon octicon-link"></span></a>Range-based <code>for</code> Loop</h3>
+<a id="range-based-for-loop" class="anchor" href="#range-based-for-loop" aria-hidden="true"><span class="octicon octicon-link"></span></a>Range-based <code>for</code> Loop</h3>
 
 <p>We support the new <a href="http://en.cppreference.com/w/cpp/language/range-for">C++11 range-based <code>for</code> loop</a> on tensors. In Thunder, a range-based <code>for</code> loop iterates through the first dimension of the tensor.</p>
 
@@ -163,7 +163,7 @@
 </pre></div>
 
 <h3>
-<a name="lambda-expression" class="anchor" href="#lambda-expression"><span class="octicon octicon-link"></span></a>Lambda Expression</h3>
+<a id="lambda-expression" class="anchor" href="#lambda-expression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lambda Expression</h3>
 
 <p>In Thunder, each tensor can accept a <a href="http://en.cppreference.com/w/cpp/language/lambda">lambda expression</a> to read or change its values. The following is an example</p>
 
@@ -184,7 +184,7 @@
 </pre></div>
 
 <h3>
-<a name="complex-numbers" class="anchor" href="#complex-numbers"><span class="octicon octicon-link"></span></a>Complex Numbers</h3>
+<a id="complex-numbers" class="anchor" href="#complex-numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Complex Numbers</h3>
 
 <p>Thunder library support complex numbers natively.</p>
 
@@ -202,7 +202,7 @@
 </pre></div>
 
 <h3>
-<a name="serialization" class="anchor" href="#serialization"><span class="octicon octicon-link"></span></a>Serialization</h3>
+<a id="serialization" class="anchor" href="#serialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Serialization</h3>
 
 <p>Thunder provides its own serialization functionalities that are very extensible. It can</p>
 
@@ -229,12 +229,13 @@
 </pre></div>
 
 <h3>
-<a name="random-generators" class="anchor" href="#random-generators"><span class="octicon octicon-link"></span></a>Random Generators</h3>
+<a id="random-generators" class="anchor" href="#random-generators" aria-hidden="true"><span class="octicon octicon-link"></span></a>Random Generators</h3>
 
 <p>We support all <a href="http://en.cppreference.com/w/cpp/numeric/random">random generators provided by the C++11 standard library</a>. They include</p>
 
 <ul>
-<li>Uniform distribution</li>
+<li>Discrete uniform distribution</li>
+<li>Continuous uniform distribution</li>
 <li>Bernoulli distribution</li>
 <li>Binomial distribution</li>
 <li>Negative binomial distribution</li>
@@ -259,15 +260,13 @@
 <span class="c1">// Create a random number generator</span>
 <span class="n">DoubleRandom</span> <span class="n">generator</span><span class="p">;</span>
 
-<span class="c1">// Create a tensor of size 3x9x7x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-
-<span class="c1">// Generate from gamma distribution with alpha = 1.0, beta = 1.0.</span>
-<span class="n">generator</span><span class="p">.</span><span class="n">gamma</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tensor</span><span class="p">);</span>
+<span class="c1">// Generate a tensor of size 3x9x7x10 from a gamma distribution</span>
+<span class="c1">// with alpha = 1.0 and beta = 1.0.</span>
+<span class="n">DoubleTensor</span> <span class="n">tensor</span> <span class="o">=</span> <span class="n">generator</span><span class="p">.</span><span class="n">gamma</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">},</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
 </pre></div>
 
 <h3>
-<a name="batch-blas" class="anchor" href="#batch-blas"><span class="octicon octicon-link"></span></a>Batch BLAS</h3>
+<a id="batch-blas" class="anchor" href="#batch-blas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Batch BLAS</h3>
 
 <p>Our BLAS routines support batch mode. The batch mode offers possiblity of speeding up BLAS routines in CPU or GPU without changing the underlying single-core implementation. This design should be more practical and easier to speed up.</p>
 
