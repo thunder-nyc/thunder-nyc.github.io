@@ -55,18 +55,15 @@
 
 <p>Thunder can be installed via cmake. To configure the project, please execute</p>
 
-<div class="highlight highlight-sh"><pre><span class="nv">$ </span>cmake
-</pre></div>
+<div class="highlight highlight-sh"><pre>$ cmake</pre></div>
 
 <p>Then, you can compile Thunder by</p>
 
-<div class="highlight highlight-sh"><pre><span class="nv">$ </span>make
-</pre></div>
+<div class="highlight highlight-sh"><pre>$ make</pre></div>
 
 <p>If you want to install the project, you can use the following command after cmake configuration.</p>
 
-<div class="highlight highlight-sh"><pre><span class="nv">$ </span>make install
-</pre></div>
+<div class="highlight highlight-sh"><pre>$ make install</pre></div>
 
 <p>To set the installation prefix, you can add an option like <code>-DCMAKE_INSTALL_PREFIX=/usr/local</code> to the cmake command.</p>
 
@@ -77,8 +74,7 @@
 
 <p>To compile tests, you can add an option <code>-DBUILD_THUNDER_TESTS=ON</code> to the cmake command. Then, you can run the tests by</p>
 
-<div class="highlight highlight-sh"><pre><span class="nv">$ </span>make <span class="nb">test</span>
-</pre></div>
+<div class="highlight highlight-sh"><pre>$ make <span class="pl-c1">test</span></pre></div>
 
 <p>In most systems the tests should be finished with no problems. However, it is possible that you may encounter occasional numerical precision errors depending on your compiler and standard C++ library. Checking the CTest logs manually is needed to make sure everything is okay.</p>
 
@@ -92,15 +88,14 @@
 
 <p>Device transparency means that we can transfer data between tensors living on different hardware seamlessly. For example</p>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Create a tensor of size 3x9x7x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">cpu_tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create a tensor of size 3x9x7x10</span>
+DoubleTensor <span class="pl-en">cpu_tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Create a tensor living on NVIDIA GPU and copy from CPU tensor.</span>
-<span class="c1">// Only explicit static cast is needed.</span>
-<span class="n">FloatCudaTensor</span> <span class="n">gpu_tensor</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span> <span class="n">FloatCudaTensor</span> <span class="o">&gt;</span><span class="p">(</span><span class="n">cpu_tensor</span><span class="p">);</span>
-</pre></div>
+<span class="pl-c">// Create a tensor living on NVIDIA GPU and copy from CPU tensor.</span>
+<span class="pl-c">// Only explicit static cast is needed.</span>
+FloatCudaTensor gpu_tensor = <span class="pl-k">static_cast</span>&lt; FloatCudaTensor &gt;(cpu_tensor);</pre></div>
 
 <h3>
 <a id="reference-semantics" class="anchor" href="#reference-semantics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference Semantics</h3>
@@ -109,97 +104,93 @@
 
 <p>That being said, we still have static memory deallocation when a <code>Storage</code> is not linked by anybody. This provides us with both fast Tensor operations and tight memory control without requiring any explicit memory calls by the user.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Using tensor constructors create new underlying Storage object.</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Using tensor constructors create new underlying Storage object.</span>
+DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Static tensor creators also create new underlying Storage objects.</span>
-<span class="n">DoubleTensor</span> <span class="n">created_tensor</span> <span class="o">=</span> <span class="n">DoubleTensor</span><span class="o">::</span><span class="n">ones</span><span class="p">(</span><span class="n">tensor</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="pl-c">// Static tensor creators also create new underlying Storage objects.</span>
+DoubleTensor created_tensor = DoubleTensor::ones(tensor.size());
 
-<span class="c1">// Copy constructor still points to the same Storage object.</span>
-<span class="n">DoubleTensor</span> <span class="n">copied_tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">;</span>
+<span class="pl-c">// Copy constructor still points to the same Storage object.</span>
+DoubleTensor copied_tensor = tensor;
 
-<span class="c1">// Subtensor operators still points to the same Storage object,</span>
-<span class="c1">// but now we have a different subtensor view of size 2x8x7x10</span>
-<span class="n">DoubleTensor</span> <span class="n">sub_tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">[{{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},{</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">}}]</span>
+<span class="pl-c">// Subtensor operators still points to the same Storage object,</span>
+<span class="pl-c">// but now we have a different subtensor view of size 2x8x7x10</span>
+DoubleTensor sub_tensor = tensor[{{<span class="pl-c1">1</span>,<span class="pl-c1">2</span>},{<span class="pl-c1">1</span>,<span class="pl-c1">8</span>}}]
 
-<span class="c1">// However, the call to 'clone()' creates new underlying Storage.</span>
-<span class="c1">// It is essentially a 'deep copy'.</span>
-<span class="n">DoubleTensor</span> <span class="n">cloned_tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
-</pre></div>
+<span class="pl-c">// However, the call to 'clone()' creates new underlying Storage.</span>
+<span class="pl-c">// It is essentially a 'deep copy'.</span>
+DoubleTensor cloned_tensor = tensor.clone();</pre></div>
 
 <h3>
 <a id="range-based-for-loop" class="anchor" href="#range-based-for-loop" aria-hidden="true"><span class="octicon octicon-link"></span></a>Range-based <code>for</code> Loop</h3>
 
 <p>We support the new <a href="http://en.cppreference.com/w/cpp/language/range-for">C++11 range-based <code>for</code> loop</a> on tensors. In Thunder, a range-based <code>for</code> loop iterates through the first dimension of the tensor.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Create a tensor of size 3x9x7x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create a tensor of size 3x9x7x10</span>
+DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Create a vector of size 10</span>
-<span class="n">DoubleTensor</span> <span class="nf">vector</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create a vector of size 10</span>
+DoubleTensor <span class="pl-en">vector</span>(<span class="pl-c1">10</span>);
 
-<span class="c1">// Create a vector of size 7 storing result data</span>
-<span class="n">DoubleTensor</span> <span class="n">result</span> <span class="o">=</span> <span class="n">DoubleTensor</span><span class="o">::</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span>
+<span class="pl-c">// Create a vector of size 7 storing result data</span>
+DoubleTensor result = DoubleTensor::zeros(<span class="pl-c1">7</span>);
 
-<span class="c1">// Create a default blas device</span>
-<span class="n">DoubleBlas</span> <span class="n">blas_device</span><span class="p">;</span>
+<span class="pl-c">// Create a default blas device</span>
+DoubleBlas blas_device;
 
-<span class="c1">// Create a default random device</span>
-<span class="n">DoubleRandom</span> <span class="n">rand_device</span><span class="p">;</span>
+<span class="pl-c">// Create a default random device</span>
+DoubleRandom rand_device;
 
-<span class="c1">// Each t is of size 9x7x10</span>
-<span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">DoubleTensor</span> <span class="o">&amp;</span><span class="nl">t</span> <span class="p">:</span> <span class="n">tensor</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Each s is of size 7x10</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">DoubleTensor</span> <span class="o">&amp;</span><span class="nl">s</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Do matrix-vector multiplication with vector sampled</span>
-        <span class="c1">// from normal distribution with mean = 0 and std = 1</span>
-        <span class="n">result</span> <span class="o">+=</span> <span class="n">blas_device</span><span class="p">.</span><span class="n">gemv</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">rand_device</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
+<span class="pl-c">// Each t is of size 9x7x10</span>
+<span class="pl-k">for</span> (<span class="pl-k">const</span> DoubleTensor &amp;t : tensor) {
+    <span class="pl-c">// Each s is of size 7x10</span>
+    <span class="pl-k">for</span> (<span class="pl-k">const</span> DoubleTensor &amp;s : t) {
+        <span class="pl-c">// Do matrix-vector multiplication with vector sampled</span>
+        <span class="pl-c">// from normal distribution with mean = 0 and std = 1</span>
+        result += blas_device.<span class="pl-c1">gemv</span>(s, rand_device.<span class="pl-c1">normal</span>(vector, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>));
+    }
+}</pre></div>
 
 <h3>
 <a id="lambda-expression" class="anchor" href="#lambda-expression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lambda Expression</h3>
 
 <p>In Thunder, each tensor can accept a <a href="http://en.cppreference.com/w/cpp/language/lambda">lambda expression</a> to read or change its values. The following is an example</p>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Create a tensor of size 3x9x7x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create a tensor of size 3x9x7x10</span>
+DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Create a value to store the sum</span>
-<span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="pl-c">// Create a value to store the sum</span>
+<span class="pl-k">double</span> sum = <span class="pl-c1">0</span>;
 
-<span class="c1">// Apply a lambda that sums up the values and assign current sum to current value</span>
-<span class="n">tensor</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span>
-   <span class="p">[</span><span class="o">&amp;</span><span class="n">sum</span><span class="p">](</span><span class="kt">double</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">v</span><span class="p">;</span>
-      <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
-    <span class="p">});</span>
-</pre></div>
+<span class="pl-c">// Apply a lambda that sums up the values and assign current sum to current value</span>
+tensor.apply(
+   [&amp;sum](<span class="pl-k">double</span> v) {
+      sum = sum + v;
+      <span class="pl-k">return</span> sum;
+    });</pre></div>
 
 <h3>
 <a id="complex-numbers" class="anchor" href="#complex-numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Complex Numbers</h3>
 
 <p>Thunder library support complex numbers natively.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Create 2 tensors of size 3x9x7x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor1</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create 2 tensors of size 3x9x7x10</span>
+DoubleTensor <span class="pl-en">tensor1</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
+DoubleTensor <span class="pl-en">tensor2</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Construct a complex tensor using polar</span>
-<span class="n">DoubleComplexTensor</span> <span class="n">complex_tensor</span> <span class="o">=</span> <span class="n">DoubleComplexTensor</span><span class="o">::</span><span class="n">polar</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">);</span>
+<span class="pl-c">// Construct a complex tensor using polar</span>
+DoubleComplexTensor complex_tensor = DoubleComplexTensor::polar(tensor1, tensor2);
 
-<span class="c1">// Get the complex norm of the tensor</span>
-<span class="n">DoubleTensor</span> <span class="n">norm_tensor</span> <span class="o">=</span> <span class="n">complex_tensor</span><span class="p">.</span><span class="n">getCnrm</span><span class="p">();</span>
-</pre></div>
+<span class="pl-c">// Get the complex norm of the tensor</span>
+DoubleTensor norm_tensor = complex_tensor.getCnrm();</pre></div>
 
 <h3>
 <a id="serialization" class="anchor" href="#serialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Serialization</h3>
@@ -213,20 +204,19 @@
 <li>Easily extensible and non-intrusive for classes</li>
 </ul>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Create a tensor of size 3x9x7x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create a tensor of size 3x9x7x10</span>
+DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Create a text serializer that serializes to a string</span>
-<span class="n">StringTextSerializer</span> <span class="n">string_serializer</span><span class="p">;</span>
+<span class="pl-c">// Create a text serializer that serializes to a string</span>
+StringTextSerializer string_serializer;
 
-<span class="c1">// Serialize the tensor</span>
-<span class="n">string_serializer</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">tensor</span><span class="p">);</span>
+<span class="pl-c">// Serialize the tensor</span>
+string_serializer.save(tensor);
 
-<span class="c1">// Now you can see the content of the serialized data</span>
-<span class="n">printf</span><span class="p">(</span><span class="s">"Serialized data: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">string_serializer</span><span class="p">.</span><span class="n">protocol</span><span class="p">().</span><span class="n">stream</span><span class="p">().</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
-</pre></div>
+<span class="pl-c">// Now you can see the content of the serialized data</span>
+<span class="pl-en">printf</span>(<span class="pl-s"><span class="pl-pds">"</span>Serialized data: <span class="pl-c1">%s</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span>, string_serializer.protocol().stream().str().c_str());</pre></div>
 
 <h3>
 <a id="random-generators" class="anchor" href="#random-generators" aria-hidden="true"><span class="octicon octicon-link"></span></a>Random Generators</h3>
@@ -255,43 +245,41 @@
 
 <p>For example</p>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Create a random number generator</span>
-<span class="n">DoubleRandom</span> <span class="n">generator</span><span class="p">;</span>
+<span class="pl-c">// Create a random number generator</span>
+DoubleRandom generator;
 
-<span class="c1">// Generate a tensor of size 3x9x7x10 from a gamma distribution</span>
-<span class="c1">// with alpha = 1.0 and beta = 1.0.</span>
-<span class="n">DoubleTensor</span> <span class="n">tensor</span> <span class="o">=</span> <span class="n">generator</span><span class="p">.</span><span class="n">gamma</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">},</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-</pre></div>
+<span class="pl-c">// Generate a tensor of size 3x9x7x10 from a gamma distribution</span>
+<span class="pl-c">// with alpha = 1.0 and beta = 1.0.</span>
+DoubleTensor tensor = generator.gamma({<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>}, <span class="pl-c1">1.0</span>, <span class="pl-c1">1.0</span>);</pre></div>
 
 <h3>
 <a id="batch-blas" class="anchor" href="#batch-blas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Batch BLAS</h3>
 
 <p>Our BLAS routines support batch mode. The batch mode offers possiblity of speeding up BLAS routines in CPU or GPU without changing the underlying single-core implementation. This design should be more practical and easier to speed up.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="k">using</span> <span class="k">namespace</span> <span class="n">thunder</span><span class="p">;</span>
+<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
-<span class="c1">// Create a BLAS computing device</span>
-<span class="n">DoubleBlas</span> <span class="n">blas_device</span><span class="p">;</span>
+<span class="pl-c">// Create a BLAS computing device</span>
+DoubleBlas blas_device;
 
-<span class="c1">// Create a tensor of size 3x9x7x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor1</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create a tensor of size 3x9x7x10</span>
+DoubleTensor <span class="pl-en">tensor1</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Create another tensor of size 3x9x10</span>
-<span class="n">DoubleTensor</span> <span class="nf">tensor2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="pl-c">// Create another tensor of size 3x9x10</span>
+DoubleTensor <span class="pl-en">tensor2</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">10</span>);
 
-<span class="c1">// Computing matrix-vector multiplication in batch mode</span>
-<span class="c1">// Now, 'result' is a tensor of size 3x9x7.</span>
-<span class="n">DoubleTensor</span> <span class="n">result</span> <span class="o">=</span> <span class="n">blas_device</span><span class="p">.</span><span class="n">gemv</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">);</span>
-</pre></div>
+<span class="pl-c">// Computing matrix-vector multiplication in batch mode</span>
+<span class="pl-c">// Now, 'result' is a tensor of size 3x9x7.</span>
+DoubleTensor result = blas_device.gemv(tensor1, tensor2);</pre></div>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
