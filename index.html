@@ -1,94 +1,82 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Thunder : C++ 11 Tensor Library">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Thunder</title>
+    <meta charset="UTF-8">
+    <title>Thunder by thunder-nyc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Thunder</h1>
+      <h2 class="project-tagline">C++ 11 Tensor Library</h2>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/thunder-nyc">View on GitHub</a>
-
-          <h1 id="project_title">Thunder</h1>
-          <h2 id="project_tagline">C++ 11 Tensor Library</h2>
-
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h2>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+    <section class="main-content">
+      <h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>Thunder is a <a href="http://en.wikipedia.org/wiki/C%2B%2B11">C++11</a> library to provide device-transparent Tensor mathematical operations. We are currently working on a first proof-of-idea version of the library, focusing on applications in <a href="http://en.wikipedia.org/wiki/Deep_learning">Deep Learning</a> using high-level parallelization and numerical optimization with GPUs and computer clusters.</p>
 
 <p>Thunder is largely inspired by <a href="http://torch.ch">Torch 7</a>, Facebook's <a href="http://github.com/facebook/thpp">TH++</a>, and <a href="http://eblearn.sourceforge.net">EBLearn</a>'s <a href="http://eblearn.sourceforge.net/libidx.html">libidx</a>. In fact, the name "Thunder" came from "TH--" if "under" could be interpreted as "--".</p>
 
-<p>The library just had its development began. Contribution is very welcomed! Please contact Xiang Zhang (xiang.zhang [at] nyu.edu) for details.</p>
+<h2>
+<a id="downloads" class="anchor" href="#downloads" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Downloads</h2>
+
+<p><a href="https://github.com/thunder-nyc/Thunder/releases">Current release</a> of Thunder is version 0.3.0. You can download it from our <a href="https://github.com/thunder-nyc/Thunder/releases">release page</a> or check it out in our <a href="https://github.com/thunder-nyc/Thunder/tree/v0.3.0">Github repository</a>.</p>
 
 <h2>
-<a id="downloads" class="anchor" href="#downloads" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloads</h2>
-
-<p><a href="https://github.com/thunder-nyc/Thunder/releases">Current release</a> of Thunder is version 0.2.0. You can download it from our <a href="https://github.com/thunder-nyc/Thunder/releases">release page</a> or check it out in our <a href="https://github.com/thunder-nyc/Thunder/tree/v0.2.0">Github repository</a>.</p>
-
-<h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Here is a list of prerequisites you need to have to make sure Thunder compiles</p>
 
 <ul>
-<li>A compiler that supports C++11. Some examples are <a href="https://gcc.gnu.org">gcc</a> &gt;= 4.8 and <a href="http://clang.llvm.org">llvm/clang</a> &gt;= 3.4.</li>
+<li>A C++11 compiler. Some examples are <a href="https://gcc.gnu.org">gcc</a> &gt;= 4.8 and <a href="http://clang.llvm.org">llvm/clang</a> &gt;= 3.4.</li>
+<li>BLAS library (e.g., libblas.so)</li>
 </ul>
 
 <h3>
-<a id="compile-thunder" class="anchor" href="#compile-thunder" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compile Thunder</h3>
+<a id="compile-thunder" class="anchor" href="#compile-thunder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile Thunder</h3>
 
 <p>Thunder can be installed via cmake. To configure the project, please execute</p>
 
-<div class="highlight highlight-sh"><pre>$ cmake</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ cmake</pre></div>
 
 <p>Then, you can compile Thunder by</p>
 
-<div class="highlight highlight-sh"><pre>$ make</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ make</pre></div>
 
 <p>If you want to install the project, you can use the following command after cmake configuration.</p>
 
-<div class="highlight highlight-sh"><pre>$ make install</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ make install</pre></div>
 
 <p>To set the installation prefix, you can add an option like <code>-DCMAKE_INSTALL_PREFIX=/usr/local</code> to the cmake command.</p>
 
 <p>Under Apple OS X you might get a warning regarding <a href="http://www.cmake.org/cmake/help/v3.0/policy/CMP0042.html">CMP0042</a>. Since it is safe to ignore the warning, you can add an option <code>-Wno-dev</code> to supress it.</p>
 
 <h3>
-<a id="compile-tests" class="anchor" href="#compile-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compile Tests</h3>
+<a id="compile-tests" class="anchor" href="#compile-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile Tests</h3>
 
 <p>To compile tests, you can add an option <code>-DBUILD_THUNDER_TESTS=ON</code> to the cmake command. Then, you can run the tests by</p>
 
-<div class="highlight highlight-sh"><pre>$ make <span class="pl-c1">test</span></pre></div>
+<div class="highlight highlight-source-shell"><pre>$ make <span class="pl-c1">test</span></pre></div>
 
 <p>In most systems the tests should be finished with no problems. However, it is possible that you may encounter occasional numerical precision errors depending on your compiler and standard C++ library. Checking the CTest logs manually is needed to make sure everything is okay.</p>
 
 <h2>
-<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
 
 <p>Thunder has many exciting features. The following is a preview list. Some of them are already in the current public source code.</p>
 
 <h3>
-<a id="device-transparency" class="anchor" href="#device-transparency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Device Transparency</h3>
+<a id="device-transparency" class="anchor" href="#device-transparency" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Device Transparency</h3>
 
 <p>Device transparency means that we can transfer data between tensors living on different hardware seamlessly. For example</p>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Create a tensor of size 3x9x7x10</span>
 DoubleTensor <span class="pl-en">cpu_tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
@@ -98,13 +86,13 @@ DoubleTensor <span class="pl-en">cpu_tensor</span>(<span class="pl-c1">3</span>,
 FloatCudaTensor gpu_tensor = <span class="pl-k">static_cast</span>&lt; FloatCudaTensor &gt;(cpu_tensor);</pre></div>
 
 <h3>
-<a id="reference-semantics" class="anchor" href="#reference-semantics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference Semantics</h3>
+<a id="reference-semantics" class="anchor" href="#reference-semantics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reference Semantics</h3>
 
 <p>Tensors in Thunder do not manage memory; rather, they contain <a href="http://en.cppreference.com/w/cpp/memory/shared_ptr">thread-safe C++11 shared pointers</a> to underlying <code>Storage</code> objects. Unless explicitly created by constructors, static tensor creators or a call to <code>Tensor::clone()</code> for deep copying, Thunder tensors are light-weight objects that can be copied, moved or returned without heavy side effects.</p>
 
 <p>That being said, we still have static memory deallocation when a <code>Storage</code> is not linked by anybody. This provides us with both fast Tensor operations and tight memory control without requiring any explicit memory calls by the user.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Using tensor constructors create new underlying Storage object.</span>
 DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
@@ -124,11 +112,11 @@ DoubleTensor sub_tensor = tensor[{{<span class="pl-c1">1</span>,<span class="pl-
 DoubleTensor cloned_tensor = tensor.clone();</pre></div>
 
 <h3>
-<a id="range-based-for-loop" class="anchor" href="#range-based-for-loop" aria-hidden="true"><span class="octicon octicon-link"></span></a>Range-based <code>for</code> Loop</h3>
+<a id="range-based-for-loop" class="anchor" href="#range-based-for-loop" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Range-based <code>for</code> Loop</h3>
 
 <p>We support the new <a href="http://en.cppreference.com/w/cpp/language/range-for">C++11 range-based <code>for</code> loop</a> on tensors. In Thunder, a range-based <code>for</code> loop iterates through the first dimension of the tensor.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Create a tensor of size 3x9x7x10</span>
 DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
@@ -140,7 +128,7 @@ DoubleTensor <span class="pl-en">vector</span>(<span class="pl-c1">10</span>);
 DoubleTensor result = DoubleTensor::zeros(<span class="pl-c1">7</span>);
 
 <span class="pl-c">// Create a default blas device</span>
-DoubleBlas blas_device;
+DoubleLinalg linalg_device;
 
 <span class="pl-c">// Create a default random device</span>
 DoubleRandom rand_device;
@@ -151,16 +139,16 @@ DoubleRandom rand_device;
     <span class="pl-k">for</span> (<span class="pl-k">const</span> DoubleTensor &amp;s : t) {
         <span class="pl-c">// Do matrix-vector multiplication with vector sampled</span>
         <span class="pl-c">// from normal distribution with mean = 0 and std = 1</span>
-        result += blas_device.<span class="pl-c1">gemv</span>(s, rand_device.<span class="pl-c1">normal</span>(vector, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>));
+        result += linalg_device.<span class="pl-c1">gemv</span>(s, rand_device.<span class="pl-c1">normal</span>(vector, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>));
     }
 }</pre></div>
 
 <h3>
-<a id="lambda-expression" class="anchor" href="#lambda-expression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lambda Expression</h3>
+<a id="lambda-expression" class="anchor" href="#lambda-expression" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lambda Expression</h3>
 
 <p>In Thunder, each tensor can accept a <a href="http://en.cppreference.com/w/cpp/language/lambda">lambda expression</a> to read or change its values. The following is an example</p>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Create a tensor of size 3x9x7x10</span>
 DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
@@ -176,11 +164,11 @@ tensor.apply(
     });</pre></div>
 
 <h3>
-<a id="complex-numbers" class="anchor" href="#complex-numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Complex Numbers</h3>
+<a id="complex-numbers" class="anchor" href="#complex-numbers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Complex Numbers</h3>
 
 <p>Thunder library support complex numbers natively.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Create 2 tensors of size 3x9x7x10</span>
 DoubleTensor <span class="pl-en">tensor1</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
@@ -193,18 +181,18 @@ DoubleComplexTensor complex_tensor = DoubleComplexTensor::polar(tensor1, tensor2
 DoubleTensor norm_tensor = complex_tensor.getCnrm();</pre></div>
 
 <h3>
-<a id="serialization" class="anchor" href="#serialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Serialization</h3>
+<a id="serialization" class="anchor" href="#serialization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Serialization</h3>
 
 <p>Thunder provides its own serialization functionalities that are very extensible. It can</p>
 
 <ul>
 <li>Serialize all fundamental types</li>
 <li>Avoid duplicated data saving for pointers</li>
-<li>Track polymorphic types and do correct serialization</li>
-<li>Easily extensible and non-intrusive for classes</li>
+<li>Track polymorphic types and do dynamic serialization</li>
+<li>Be easily extended to user-defined classes in a non-intrusive fashion</li>
 </ul>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Create a tensor of size 3x9x7x10</span>
 DoubleTensor <span class="pl-en">tensor</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
@@ -219,7 +207,7 @@ string_serializer.save(tensor);
 <span class="pl-en">printf</span>(<span class="pl-s"><span class="pl-pds">"</span>Serialized data: <span class="pl-c1">%s</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span>, string_serializer.protocol().stream().str().c_str());</pre></div>
 
 <h3>
-<a id="random-generators" class="anchor" href="#random-generators" aria-hidden="true"><span class="octicon octicon-link"></span></a>Random Generators</h3>
+<a id="random-generators" class="anchor" href="#random-generators" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Random Generators</h3>
 
 <p>We support all <a href="http://en.cppreference.com/w/cpp/numeric/random">random generators provided by the C++11 standard library</a>. They include</p>
 
@@ -245,7 +233,7 @@ string_serializer.save(tensor);
 
 <p>For example</p>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Create a random number generator</span>
 DoubleRandom generator;
@@ -255,14 +243,15 @@ DoubleRandom generator;
 DoubleTensor tensor = generator.gamma({<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>}, <span class="pl-c1">1.0</span>, <span class="pl-c1">1.0</span>);</pre></div>
 
 <h3>
-<a id="batch-blas" class="anchor" href="#batch-blas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Batch BLAS</h3>
+<a id="batch-blas" class="anchor" href="#batch-blas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Batch BLAS</h3>
 
 <p>Our BLAS routines support batch mode. The batch mode offers possiblity of speeding up BLAS routines in CPU or GPU without changing the underlying single-core implementation. This design should be more practical and easier to speed up.</p>
 
-<div class="highlight highlight-cpp"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">thunder</span><span class="pl-k">;</span>
 
 <span class="pl-c">// Create a BLAS computing device</span>
-DoubleBlas blas_device;
+<span class="pl-c">// Linealg is short for linear algebra</span>
+DoubleLinalg linalg_device;
 
 <span class="pl-c">// Create a tensor of size 3x9x7x10</span>
 DoubleTensor <span class="pl-en">tensor1</span>(<span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">10</span>);
@@ -272,18 +261,16 @@ DoubleTensor <span class="pl-en">tensor2</span>(<span class="pl-c1">3</span>, <s
 
 <span class="pl-c">// Computing matrix-vector multiplication in batch mode</span>
 <span class="pl-c">// Now, 'result' is a tensor of size 3x9x7.</span>
-DoubleTensor result = blas_device.gemv(tensor1, tensor2);</pre></div>
-      </section>
-    </div>
+DoubleTensor result = linalg_device.gemv(tensor1, tensor2);</pre></div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      <footer class="site-footer">
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-              <script type="text/javascript">
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -293,7 +280,6 @@ DoubleTensor result = blas_device.gemv(tensor1, tensor2);</pre></div>
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
-
 
   </body>
 </html>
